@@ -11,20 +11,20 @@ private:
 	// 1) Modificar esta sección
 	const std::string optString = "N:t:l:L:h";
 	
-	const std::string opciones = "-N tam_problema -t threads -l limite_inferior -L limite_superior[-h]";
+	const std::string opciones = "-N tam_problema -t threads -l lim_inferior -L lim_superior [-h]";
 
 	const std::string descripcion  = "Descripción:\n"
-      	                                 "\t-N   Tamaño del problema\n"
-        				 "\t-t   Cantidad de threads a utilizar\n"
-					 "\t-l   Limite inferior del rango de numeros randomicos\n"
-					 "\t-L   Limite superior del rango de numeros randomicos\n"
-        		         	 "\t-h   Muestra esta ayuda y termina\n";
+		                             "\t-N   Tamaño del arreglo\n"
+									 "\t-t   Cantidad de threads a utilizar\n"
+									 "\t-l   Limite inferior del rango aleatorio\n"
+									 "\t-L   Limite superior del rango aleatorio\n"
+									 "\t-h   Muestra esta ayuda y termina\n";
 	
 	typedef struct args_t{
 		uint64_t tamProblema;
 		uint32_t numThreads;
-		uint32_t lim_inf;
-		uint32_t lim_sup;
+		uint32_t limInf;
+		uint32_t limSup;
 	} args_t;
 	
 	// 2) Modificar constructor
@@ -52,8 +52,9 @@ private:
 checkArgs::checkArgs(int _argc , char **_argv){
 	parametros.tamProblema = 0;
 	parametros.numThreads  = 0;
-	parametros.lim_inf     = 0;
-	parametros.lim_sup     = 0;
+	parametros.limInf      = 0;
+	parametros.limSup      = 0;
+
 
 	argc = _argc;
 	argv = _argv;
@@ -75,11 +76,12 @@ checkArgs::args_t checkArgs::getArgs(){
 			case 't':
 					parametros.numThreads = atoi(optarg);
 					break;
+					
 			case 'l':
-					parametros.lim_inf = atoi(optarg);
+					parametros.limInf = atoi(optarg);
 					break;
 			case 'L':
-					parametros.lim_sup= atoi(optarg);
+					parametros.limSup = atoi(optarg);
 					break;
 			case 'h':
 			default:
@@ -90,9 +92,8 @@ checkArgs::args_t checkArgs::getArgs(){
 
 	if ( parametros.tamProblema == 0 ||
 		 parametros.numThreads  == 0 ||
-		 parametros.lim_inf     == 0 ||
-		 parametros.lim_sup     == 0 ){
-		
+		 parametros.limInf      == 0 ||
+		 parametros.limSup      == 0 ){
 		printUsage();
 		exit(EXIT_FAILURE);
 	}
