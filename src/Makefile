@@ -7,9 +7,9 @@ TARGET=../sumArray
 
 INCLUDES=-I../include -I. -I./include
 LDFLAGS=
-LDLIBS=-lpthread
+LDLIBS=-lpthread -fopenmp
 
-CXXFLAGS=-std=c++14 -Wall -O2 
+CXXFLAGS=-std=c++14 -Wall -O2 -fopenmp
 
 DIR_OBJ=objs
 
