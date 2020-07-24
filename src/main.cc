@@ -59,7 +59,6 @@ int main(int argc, char** argv){
     std::cout << "Total de Elementos : " << totalElementos << std::endl;
     std::cout << "Total de Hilos     : " << numThreads     << std::endl;
 
-
     std::cout << "====Llenado del arreglo con OpenMP====" << std::endl;
     std::cout << "Tiempo de llenado  :"  << t_time0<< "[ms]" << std::endl;
     
