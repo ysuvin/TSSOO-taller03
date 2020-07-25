@@ -9,10 +9,10 @@ int main(int argc, char** argv){
 	uint32_t numThreads;
 	uint32_t lim_inf;
 	uint32_t lim_sup;
-//Variables del Arreglo y suma secuencial---
+//Variables del Arreglo y suma secuencial
 	uint64_t *array_sec;
 	uint64_t sum_sec = 0;
-//Variables del Arreglo y suma OpenMP-------
+//Variables del Arreglo y suma OpenMP
 	uint64_t *array_omp;
 	uint64_t sum_omp = 0;
 
@@ -64,8 +64,7 @@ int main(int argc, char** argv){
 
 	auto start3 = std::chrono::system_clock::now();
 
-		for (size_t i = 0; i < totalElementos; ++i)
-	{
+	for (size_t i = 0; i < totalElementos; ++i){
 		sum_sec += array_sec[i];
 	}
 	auto end3 = std::chrono::system_clock::now(); 
