@@ -2,13 +2,13 @@
 - Yian Vera Soto - yian.vera@alumnos.uv.cl
 
 
-## Diseño de la Solucion
+## Diseño de la Solución
 El objetivo de este taller es llenar un arreglo con números generados con una función random y sumarlos así logrando la multitarea logrando un mayor desempeño y eficiencia en el procesamiento y el tiempo a traves del uso de OpenMP.
 
-### Modulo 1
+### Módulo 1
 Este modulo pide la creacion y llenado de un arreglo de forma paralela utilizando OpemMP.
 
-#### Creacion del arreglo:
+#### Creación del arreglo:
 Para crear el arreglo se ultiliza la linea de codigo
 ~~~
 uint64_t totalElementos;
@@ -26,7 +26,7 @@ El siguiente codigo se encargara de llenar el arreglo de forma paralela utilizan
 	}
 ~~~
 
-### Modulo 2
+### Módulo 2
 En este modulo se pide sumar todos los numeros que guarda el arreglo de forma paralela utilizando OpenMP.
 En el siguiente codigo se utiliza la variable ```uint64_t sum_omp``` para que la suma que va sumando el for y la funcion de OpenMP se vaya guardando en esta y obtengamos el total.
 ~~~
