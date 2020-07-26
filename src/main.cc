@@ -1,6 +1,20 @@
 #include <global.h>
 #include <checkArgs.hpp>
 
+uint64_t *array_thr = nullptr;
+
+
+void fillArray(uint32_t lim_inf, uint32_t lim_sup,
+			   size_t beginIdx, size_t endIndex){
+
+	std::random_device device;
+	std::mt19937 rng(device());
+	std::uniform_int_distribution<> nRandom(lim_inf, lim_sup);
+
+	for (size_t i = beginIdx; i < endIndex; ++i){
+		array_thr[i] = nRandom(rng);
+	}
+}
 
 int main(int argc, char** argv){
 
@@ -12,9 +26,14 @@ int main(int argc, char** argv){
 //Variables del Arreglo y suma secuencial
 	uint64_t *array_sec;
 	uint64_t sum_sec = 0;
-//Variables del Arreglo y suma OpenMP
-	uint64_t *array_omp;
+//Variables del Arreglo y suma paralela con threads
+	uint64_t *sum_thr;
+
+	std::vector<std::thread *> threads;
+	//std::vector<std::thread *> threads2;
+//Variables del Arreglo y suma paralela con OpenMP
 	uint64_t sum_omp = 0;
+	uint64_t *array_omp;
 
 
 //Captura de parametros
@@ -26,13 +45,14 @@ int main(int argc, char** argv){
 	lim_sup = argumentos->getArgs().lim_sup;
 
 
-//Generador de Numeros Aleatorios
+//Generador de Numeros Aleatorios para secuencial y openMP
 
 	std::random_device device;
 	std::mt19937 rng(device());
 	std::uniform_int_distribution<> nRandom(lim_inf, lim_sup);
 
 
+//////////////////////////     MODULO 1     //////////////////////////
 //Creacion y Llenado secuencial
 
 	array_sec = new uint64_t[totalElementos];
@@ -45,6 +65,26 @@ int main(int argc, char** argv){
 	std::chrono::duration<float, std::milli> elapsed2 = end2 - start2;
 	auto t_time_array_sec = elapsed2.count();
 	delete[] array_sec;
+
+
+//Creacion y llenado paralelo con Threads
+	array_thr = new uint64_t[totalElementos];
+
+	for (size_t i = 0; i < numThreads; ++i){
+		threads.push_back(new std::thread(
+			fillArray, lim_inf, lim_sup,
+			i * (totalElementos) / numThreads,
+			(i + 1) * (totalElementos) / numThreads));
+	}
+	auto start4 = std::chrono::system_clock::now();
+	for (auto &thr : threads){
+		thr->join();
+	}
+	auto end4 = std::chrono::system_clock::now();
+	std::chrono::duration<float, std::milli> elapsed4 = end4 - start4;
+	auto t_time_array_thr = elapsed4.count();
+	delete[] array_thr;	
+
 
 //Creacion y Llenado paralelo con openMP
 
@@ -60,7 +100,8 @@ int main(int argc, char** argv){
 	auto t_time_array_omp = elapsed.count();
 
 
-// Suma secuencial
+//////////////////////////     MDOULO 2     //////////////////////////
+//Suma secuencial
 
 	auto start3 = std::chrono::system_clock::now();
 
@@ -87,12 +128,13 @@ int main(int argc, char** argv){
 
 //Resultados
 
-    std::cout << "======== Condiciones Iniciales =======" << std::endl;
+	std::cout << "======== Condiciones Iniciales =======" << std::endl;
     std::cout << "Total de Elementos           : " << totalElementos << std::endl;
     std::cout << "Total de Hilos               : " << numThreads     << std::endl;
 
     std::cout << "========= Llenado del arreglo ========" << std::endl;
     std::cout << "Tiempo Secuencial            : " << t_time_array_sec<< "[ms]" << std::endl;
+    std::cout << "Tiempo paralelo Threads      : " << t_time_array_thr<< "[ms]" << std::endl;
     std::cout << "Tiempo paralelo OpenMP       : " << t_time_array_omp<< "[ms]" << std::endl;
     
     std::cout << "=============== Sumas ================" << std::endl;
@@ -106,3 +148,4 @@ int main(int argc, char** argv){
 	
 	return(EXIT_SUCCESS);
 }
+
