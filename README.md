@@ -1,4 +1,4 @@
-# Taller 02 - Taller de Sistemas Operativos
+# Taller 03 - Taller de Sistemas Operativos
 - Yian Vera Soto - yian.vera@alumnos.uv.cl
 
 
